@@ -1,0 +1,93 @@
+from flask import Flask,render_template,request
+from flask_restful import Resource, Api
+from flask.ext.pymongo import PyMongo
+
+'''
+C:\Python27\Scripts>pip install flask-restful
+
+'''
+
+
+app = Flask(__name__)
+app.config['MONGO_URI'] = "mongodb://accountAdmin01:changeMe@127.0.01:60302/names"
+mongo = PyMongo(app)
+
+
+api = Api(app)
+
+class HelloWorld(Resource):
+    def get(self):
+        return {'hello': 'world'}
+
+
+
+
+#http://127.0.0.1:5000/
+api.add_resource(HelloWorld, '/')
+
+#http://127.0.0.1:5000/hi
+@app.route('/hi')
+def index():
+    return "<h1>Hellp world</h1>"
+
+
+#http://127.0.0.1:5000/user/kumar
+@app.route('/user/<name>')
+def user(name):
+    return '<hi>Hello, {0}<hi>'.format(name)
+
+
+#using Jinha2 template
+#http://127.0.0.1:5000/myname/hi%20kumar
+@app.route('/myname/<use_tempalte>')
+def myname(use_tempalte):
+    return render_template('user.html', name=use_tempalte)
+
+#http://127.0.0.1:5000/usingform/
+@app.route('/usingform/',methods=['GET','POST'])
+def usingform():
+    name = None
+    if request.method == 'POST' and 'name' in request.form:
+        name = request.form['name']
+    return render_template('testform.html',name=name)
+
+#C:\Python27\Scripts>pip install flask-pymongo
+
+
+#C:\Python27\Scripts>pip install flask-pymongo
+#flash bootsrap Jinja2
+#flash WTF
+
+
+#using
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+#https://www.safaribooksonline.com/library/view/python-web-development/9781491919194/part00.html?autoStart=True
+
+
+
+'''
+
+017-02-20T23:57:36.799-0500 I NETWORK  [thread1] waiting for connections on port 27017
+2017-02-20T23:57:47.002-0500 I NETWORK  [thread1] connection accepted from 127.0.0.1:60302 #1 (1 connection now open)
+2017-02-20T23:57:47.005-0500 I NETWORK  [conn1] received client metadata from 127.0.0.1:60302 conn1: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.4.2" },
+os: { type: "Windows", name: "Microsoft Windows 8", architecture: "x86_64", version: "6.2 (build 9200)" } }
+
+
+mongodb ://accountAdmin01:changeMe@127.0.01:60302/names
+
+use names
+db.createUser( { user: "accountAdmin01",
+                 pwd: "changeMe",
+                 customData: { employeeId: 12345 },
+                 roles: [ { role: "clusterAdmin", db: "admin" },
+                          { role: "readAnyDatabase", db: "admin" },
+                          "readWrite"] },
+               { w: "majority" , wtimeout: 5000 } )
+
+'''
