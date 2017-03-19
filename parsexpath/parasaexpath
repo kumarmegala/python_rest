@@ -28,7 +28,7 @@ api.add_resource(HelloWorld, '/')
 #http://127.0.0.1:5000/hi
 @app.route('/hi')
 def index():
-    return "<h1>Hellp world</h1>"
+    return "<h1>Hello world</h1>"
 
 
 #http://127.0.0.1:5000/user/kumar
